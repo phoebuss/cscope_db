@@ -115,13 +115,11 @@ def genCscopeDbFromPathList(db_dir, plist):
     plist_db_size = 0
     plist_db_changed = False
 
-    if not os.path.exists(path):
-        os.makedirs(db_dir)
     if os.path.exists(plist_db_path):
         with open(plist_db_path, 'r') as f:
             for l in f:
                 plist_db += [l.strip()]
-        plist_db_size = len (plist_db)
+        plist_db_size = len(plist_db)
 
     with open(slist_db_path, 'a') as slist_db_fp:
         for path in plist:
@@ -161,6 +159,9 @@ def start():
     if sb_dir:
         cscope_db_dir = sb_dir + '/.cscope_db'
         plist += getSbComponentPathList(sb_dir, cur_dir) + [sb_dir + '/include']
+
+    if not os.path.exists(cscope_db_dir):
+        os.makedirs(cscope_db_dir)
 
     _log('processing file: %s' % cur_file)
     plist += [cur_dir, cur_dir + '/include', cur_dir + '/../include']
